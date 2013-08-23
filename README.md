@@ -3,15 +3,15 @@ SYBL
 
 SYBL Language and its runtime for elasticity control of cloud services.
 
-=====================================================================================================
-
-###################### Instalation and usage instructions ####################
+Instalation and usage instructions 
 This repository contains SYBL, a system for multi-level specification and control of elasticity of cloud services.
 
 For running the system the following steps need to be followed:
-   ControlService configuration:
+  
+  ControlService configuration:
+		
 		1. The cloud service needs to be described, for now following the structure in the serviceDescription.xml(\ControlService\src\main\resources\config) example based on service units and service topologies.
-		 
+		
 		2. SYBL supports elasticity requirements specified either through Java Annotations or through XML descriptions.
 		   2.1 SYBL annotations are subset of java annotations and can be specified in a Java file, for which you need to import LocalMonitor library (current folder, generate using maven) and to deploy the LocalControlService jar. In the LocalControlService config file should be specified both rmi registry name and port through which these can communicate. 
 		   
@@ -22,6 +22,7 @@ For running the system the following steps need to be followed:
 	
 	
    MonitorAndEnforcement configuration:
+   
 		4. Monitoring Plugin Configuration - plugins offered - Simple ganglia based or MELA
 			4.1 For working with simple ganglia plugin some information has to be specified:
 				4.1.1 The ganglia plugin class needs to be specified in the config file of the MonitoringAndEnforcement Service (MonitoringPlugin = at.ac.tuwien.dsg.sybl.monitorandenforcement.monitoringPlugins.gangliaMonitoring.MonitoringGangliaAPI)
@@ -48,14 +49,17 @@ For running the system the following steps need to be followed:
 
 			
    LocalControlService - used for the case we annotate SYBL Directives inside the code of the service units
+   
          6.  Configure RMIRegistryPort and RMIRegistryName
 
 		
    LocalMonitor configuration and usage
+   
          7.  Configure RMIRegistryPort and RMIRegistryName - the same as for LocalControlService
 
 
    Compilation 
+   
          8. Run "mvn install" for the following modules in the following order:
 			  1. Model
 			  2. MonitorAndEnforcement
@@ -66,13 +70,17 @@ For running the system the following steps need to be followed:
 		
 		
   Deployment 
+  
      For deployment of controller which catches code region directives:
+	 
         9.1 Copy LocalControlService and run it on each vm
 		9.2 Import LocalMonitor in the application and use annotations @SYBL_CodeRegionDirective, @SYBL_ServiceUnitDirective, @SYBL_ServiceTopologyDirective ,@SYBL_CloudServiceDirective.   
 		9.3 Deploy the ControlService.war on the virtual machine which has the public IP  - in the tomcat distribution in webapps folder
 		9.4 Deploy the AnalysisMonitoringEnforcementService-0.0.1.war on the virtual machine which has the public IP - in the tomcat distribution in webapps folder
 		9.5 Start the tomcat server
+		
 	For deployment of controller for an application without code region directives:
+	
 		10.1 Deploy the ControlService.war on the virtual machine which has the public IP or on the local machine - in the tomcat distribution in webapps folder
 		10.2 Deploy the AnalysisMonitoringEnforcementService-0.0.1.war on the virtual machine which has the public IP or on the local machine (in case we deploy it on the local machine we need to set in the MonitorAndEnforcement module the ACCESS_MACHINE_IP to the public IP) - in the tomcat distribution in webapps folder
 		10.3 Start the tomcat server
