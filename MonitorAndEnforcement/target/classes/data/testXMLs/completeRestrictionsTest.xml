@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DescriptionTemplate>
+    <TopologyTemplate>
+        <Service id="S" name="Service" level="SERVICE">
+            <ServiceElement id="ST1" name="DataEnd" level="SERVICE_TOPOLOGY">
+                <ServiceElement id="ST1_SU1" name="DataNode" level="SERVICE_UNIT"/>
+            </ServiceElement>
+            <ServiceElement id="ST2" name="BusinessEnd" level="SERVICE_TOPOLOGY">
+                <ServiceElement id="ST2_SU1" name="WebServer" level="SERVICE_UNIT"/>
+                <ServiceElement id="ST2_SU2" name="LoadBalancer" level="SERVICE_UNIT"/>
+            </ServiceElement>
+        </Service>
+    </TopologyTemplate>
+
+
+    <CompositionRulesConfiguration TargetServiceID="S">
+        <!--MetricsCompositionRules blocks executed in sequence-->
+        <!--CompositionRule blocks executed in parallel for performance-->
+        <MetricsCompositionRules TargetServiceElementLevel="VM">
+            <!--<TargetComponentName>CassandraNode1</TargetComponentName>-->
+            <!--<TargetComponentName>CassandraNode2</TargetComponentName>-->
+            <CompositionRule SourceServiceElementLevel="VM">
+                <TargetMetric name="cpu_idle" measurementUnit="%" type="RESOURCE"/>
+                <ResultingMetric name="cpu_usage" measurementUnit="%" type="RESOURCE"/>
+                <Operation name="MUL" value="-1"/>
+                <Operation name="ADD" value="100"/>
+            </CompositionRule>
+        </MetricsCompositionRules>
+
+
+        <MetricsCompositionRules TargetServiceElementLevel="SERVICE">
+            <!--<TargetComponentName>CassandraNode1</TargetComponentName>-->
+            <!--<TargetComponentName>CassandraNode2</TargetComponentName>-->
+            <CompositionRule SourceServiceElementLevel="VM">
+                <TargetMetric name="cpu_usage" measurementUnit="%" type="RESOURCE"/>
+                <ResultingMetric name="avg_cpu_usage" measurementUnit="%" type="RESOURCE"/>
+                <Operation name="AVG"/>
+            </CompositionRule>
+        </MetricsCompositionRules>
+
+        <MetricsCompositionRules TargetServiceElementLevel="SERVICE_TOPOLOGY">
+            <!--<TargetComponentName>CassandraNode1</TargetComponentName>-->
+            <!--<TargetComponentName>CassandraNode2</TargetComponentName>-->
+            <CompositionRule SourceServiceElementLevel="VM">
+                <TargetMetric name="cpu_usage" measurementUnit="%" type="RESOURCE"/>
+                <ResultingMetric name="avg_cpu_usage" measurementUnit="%" type="RESOURCE"/>
+                <Operation name="AVG"/>
+            </CompositionRule>
+        </MetricsCompositionRules>
+
+        <MetricsCompositionRules TargetServiceElementLevel="SERVICE_UNIT">
+            <!--<TargetComponentName>CassandraNode1</TargetComponentName>-->
+            <!--<TargetComponentName>CassandraNode2</TargetComponentName>-->
+            <CompositionRule SourceServiceElementLevel="VM">
+                <TargetMetric name="cpu_usage" measurementUnit="%" type="RESOURCE"/>
+                <ResultingMetric name="avg_cpu_usage" measurementUnit="%" type="RESOURCE"/>
+                <Operation name="AVG"/>
+            </CompositionRule>
+        </MetricsCompositionRules>
+
+
+
+
+        <MetricsCompositionRules TargetServiceElementLevel="SERVICE_UNIT">
+            <TargetServiceElementID>ST2_SU1</TargetServiceElementID>
+
+            <CompositionRule SourceServiceElementLevel="VM">
+                <!--to change in ResultingMetric and SourceMEtric. Easier to understand-->
+                <TargetMetric name="responseTime" measurementUnit="milliseconds" type="QUALITY"/>
+                <ResultingMetric name="responseTime" measurementUnit="ms" type="QUALITY"/>
+                <Operation name="KEEP"/>
+            </CompositionRule>
+            <CompositionRule SourceServiceElementLevel="VM">
+                <TargetMetric name="throughput" measurementUnit="milliseconds" type="QUALITY"/>
+                <ResultingMetric name="throughput" measurementUnit="rps" type="QUALITY"/>
+                <Operation name="KEEP"/>
+            </CompositionRule>
+        </MetricsCompositionRules>
+
+
+    </CompositionRulesConfiguration>
+
+
+    <Requirements TargetServiceID="S">
+        <Requirement ID="service_RT_RESTRICTION" TargetServiceLevel="SERVICE_UNIT">
+            <TargetServiceElementID>ST2_SU1</TargetServiceElementID>
+
+            <TargetMetric name="responseTime" measurementUnit="ms" type="QUALITY"/>
+            <Condition ID="MAX_RT_RESTRICTION" Type="LESS_EQUAL">
+                <MetricValue ValueType="NUMERIC">
+                    <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                           xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">100
+                    </Value>
+                </MetricValue>
+            </Condition>
+            <Condition ID="MIN_RT_RESTRICTION" Type="GREATER_EQUAL">
+                <MetricValue ValueType="NUMERIC">
+                    <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                           xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">1
+                    </Value>
+                </MetricValue>
+            </Condition>
+
+        </Requirement>
+
+        <Requirement ID="service_TH_RESTRICTION" TargetServiceLevel="SERVICE_UNIT">
+            <TargetServiceElementID>ST2_SU1</TargetServiceElementID>
+            <TargetMetric name="throughput" measurementUnit="rps" type="QUALITY"/>
+
+            <Condition ID="MIN_TH_RESTRICTION" Type="GREATER_EQUAL">
+                <MetricValue ValueType="NUMERIC">
+                    <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                           xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">600
+                    </Value>
+                </MetricValue>
+            </Condition>
+        </Requirement>
+
+        <Requirement ID="vm_CPU_RESTRICTION" TargetServiceLevel="VM">
+
+            <TargetMetric name="cpu_usage" measurementUnit="%" type="QUALITY"/>
+
+            <Condition ID="CPU_MIN" Type="GREATER_EQUAL">
+                <MetricValue ValueType="NUMERIC">
+                    <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                           xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">50
+                    </Value>
+                </MetricValue>
+            </Condition>
+        </Requirement>
+
+
+        <!--<Requirement ID="service_MIN_TH_RESTRICTION" TargetServiceLevel="SERVICE_UNIT">-->
+
+            <!--<TargetMetric name="avg_cpu_usage" measurementUnit="%" type="QUALITY"/>-->
+
+            <!--<Condition ID="avg_CPU_MIN" Type="GREATER_EQUAL">-->
+                <!--<MetricValue ValueType="NUMERIC">-->
+                    <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+                           <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">40-->
+                    <!--</Value>-->
+                <!--</MetricValue>-->
+            <!--</Condition>-->
+        <!--</Requirement>-->
+
+        <!--<ElasticityRestriction ID="DataEnd_TIER_RESTRICTIONS" TargetComponentLevel="TIER">-->
+        <!--<TargetComponentName>DataEnd</TargetComponentName>-->
+        <!--&lt;!&ndash;<Restriction ID="DataEnd_DATA_OUT_COST_RESTRICTION" RestrictionType="LESS_EQUAL">&ndash;&gt;-->
+        <!--&lt;!&ndash;<TargetMetric name="tier_data_out_cost" measurementUnit="$" type="COST"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<MetricValue ValueType="NUMERIC">&ndash;&gt;-->
+        <!--&lt;!&ndash;<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&ndash;&gt;-->
+        <!--&lt;!&ndash;xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">50&ndash;&gt;-->
+        <!--&lt;!&ndash;</Value>&ndash;&gt;-->
+        <!--&lt;!&ndash;</MetricValue>&ndash;&gt;-->
+        <!--&lt;!&ndash;</Restriction>&ndash;&gt;-->
+        <!--<Restriction ID="DataEnd_MAX_CPU_USAGE_RESTRICTION" RestrictionType="LESS_EQUAL">-->
+        <!--<TargetMetric name="tier_cpu_usage" measurementUnit="%" type="RESOURCE"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:float">60-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+        <!--&lt;!&ndash;<Restriction ID="DataEnd_MIN_CPU_USAGE_RESTRICTION" RestrictionType="GREATER_EQUAL">&ndash;&gt;-->
+        <!--&lt;!&ndash;<TargetMetric name="tier_cpu_usage" measurementUnit="%" type="RESOURCE"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<MetricValue ValueType="NUMERIC">&ndash;&gt;-->
+        <!--&lt;!&ndash;<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&ndash;&gt;-->
+        <!--&lt;!&ndash;xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">20&ndash;&gt;-->
+        <!--&lt;!&ndash;</Value>&ndash;&gt;-->
+        <!--&lt;!&ndash;</MetricValue>&ndash;&gt;-->
+        <!--&lt;!&ndash;</Restriction>&ndash;&gt;-->
+        <!--</ElasticityRestriction>-->
+
+        <!--<ElasticityRestriction ID="BusinessEnd_TIER_RESTRICTIONS" TargetComponentLevel="TIER">-->
+        <!--<TargetComponentName>BusinessEnd</TargetComponentName>-->
+        <!--<Restriction ID="BusinessEnd_MAX_RT_RESTRICTION" RestrictionType="LESS_EQUAL">-->
+        <!--<TargetMetric name="tier_avg_responseTime" measurementUnit="ms" type="QUALITY"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">100-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+        <!--<Restriction ID="BusinessEnd_MIN_TH_RESTRICTION" RestrictionType="GREATER_EQUAL">-->
+        <!--<TargetMetric name="tier_throughput" measurementUnit="rps" type="QUALITY"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">600-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+        <!--<Restriction ID="BusinessEnd_MIN_CLIENTS" RestrictionType="GREATER_EQUAL">-->
+        <!--<TargetMetric name="clients" measurementUnit="clients/s" type="QUALITY"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">300-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+
+        <!--</ElasticityRestriction>-->
+
+
+        <!--<ElasticityRestriction ID="DATA_END_SERVER_RESTRICTIONS" TargetComponentLevel="SERVER">-->
+        <!--<TargetComponentName>CassandraNode1</TargetComponentName>-->
+        <!--<TargetComponentName>CassandraNode2</TargetComponentName>-->
+        <!--&lt;!&ndash;<Restriction ID="DATA_END_SERVER_DATA_OUT_COST_RESTRICTION" RestrictionType="LESS_EQUAL">&ndash;&gt;-->
+        <!--&lt;!&ndash;<TargetMetric name="data_out_cost" measurementUnit="$" type="COST"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<MetricValue ValueType="NUMERIC">&ndash;&gt;-->
+        <!--&lt;!&ndash;<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&ndash;&gt;-->
+        <!--&lt;!&ndash;xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">5&ndash;&gt;-->
+        <!--&lt;!&ndash;</Value>&ndash;&gt;-->
+        <!--&lt;!&ndash;</MetricValue>&ndash;&gt;-->
+        <!--&lt;!&ndash;</Restriction>&ndash;&gt;-->
+        <!--<Restriction ID="DATA_END_MAX_CPU_USAGE_RESTRICTION" RestrictionType="LESS_EQUAL">-->
+        <!--<TargetMetric name="cpu_usage" measurementUnit="%" type="RESOURCE"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:float">80-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+        <!--&lt;!&ndash;<Restriction ID="DATA_END_MIN_CPU_USAGE_RESTRICTION" RestrictionType="GREATER_EQUAL">&ndash;&gt;-->
+        <!--&lt;!&ndash;<TargetMetric name="cpu_usage" measurementUnit="%" type="RESOURCE"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<MetricValue ValueType="NUMERIC">&ndash;&gt;-->
+        <!--&lt;!&ndash;<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&ndash;&gt;-->
+        <!--&lt;!&ndash;xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">30&ndash;&gt;-->
+        <!--&lt;!&ndash;</Value>&ndash;&gt;-->
+        <!--&lt;!&ndash;</MetricValue>&ndash;&gt;-->
+        <!--&lt;!&ndash;</Restriction>&ndash;&gt;-->
+        <!--<Restriction ID="DATA_END_MIN_DISK_FREE_RESTRICTION" RestrictionType="GREATER_EQUAL">-->
+        <!--<TargetMetric name="disk_free" measurementUnit="GB" type="RESOURCE"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">20-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+        <!--</ElasticityRestriction>-->
+
+
+        <!--<ElasticityRestriction ID="WS_SERVER_RESTRICTIONS" TargetComponentLevel="SERVER">-->
+        <!--<TargetComponentName>WebServer1</TargetComponentName>-->
+        <!--<TargetComponentName>WebServer2</TargetComponentName>-->
+        <!--<TargetComponentName>WebServer3</TargetComponentName>-->
+        <!--<Restriction ID="WS_MAX_CPU_USAGE_RESTRICTION" RestrictionType="LESS_EQUAL">-->
+        <!--<TargetMetric name="cpu_usage" measurementUnit="%" type="RESOURCE"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:float">70-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+        <!--&lt;!&ndash;<Restriction ID="WS_MIN_CPU_USAGE_RESTRICTION" RestrictionType="GREATER_EQUAL">&ndash;&gt;-->
+        <!--&lt;!&ndash;<TargetMetric name="cpu_usage" measurementUnit="%" type="RESOURCE"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<MetricValue ValueType="NUMERIC">&ndash;&gt;-->
+        <!--&lt;!&ndash;<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&ndash;&gt;-->
+        <!--&lt;!&ndash;xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">30&ndash;&gt;-->
+        <!--&lt;!&ndash;</Value>&ndash;&gt;-->
+        <!--&lt;!&ndash;</MetricValue>&ndash;&gt;-->
+        <!--&lt;!&ndash;</Restriction>&ndash;&gt;-->
+        <!--<Restriction ID="WS_MAX_RT_RESTRICTION" RestrictionType="LESS_EQUAL">-->
+        <!--<TargetMetric name="responseTime" measurementUnit="ms" type="QUALITY"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">10-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+        <!--<Restriction ID="WS_MIN_TH_RESTRICTION" RestrictionType="GREATER_EQUAL">-->
+        <!--<TargetMetric name="throughput" measurementUnit="rps" type="QUALITY"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:int">200-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+        <!--</ElasticityRestriction>-->
+
+        <!--<ElasticityRestriction ID="HA_SERVER_RESTRICTIONS" TargetComponentLevel="SERVER">-->
+        <!--<TargetComponentName>HAProxy</TargetComponentName>-->
+
+        <!--<Restriction ID="WS_MAX_CPU_USAGE_RESTRICTION" RestrictionType="LESS_EQUAL">-->
+        <!--<TargetMetric name="cpu_usage" measurementUnit="%" type="RESOURCE"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:float">90-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+
+        <!--<Restriction ID="WS_MIN_MEM_FREE_RESTRICTION" RestrictionType="GREATER_EQUAL">-->
+        <!--<TargetMetric name="mem_free" measurementUnit="GB" type="RESOURCE"/>-->
+        <!--<MetricValue ValueType="NUMERIC">-->
+        <!--<Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:float">1-->
+        <!--</Value>-->
+        <!--</MetricValue>-->
+        <!--</Restriction>-->
+
+        <!--</ElasticityRestriction>-->
+
+
+    </Requirements>
+
+
+</DescriptionTemplate>

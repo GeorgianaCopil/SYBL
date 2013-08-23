@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target/AnalysisAndMonitoringService-0.0.1" />
+      <excludeFolder url="file://$MODULE_DIR$/target/AnalysisMonitoringEnforcementService-0.0.1" />
+      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/jaxws" />
+      <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
+      <excludeFolder url="file://$MODULE_DIR$/target/surefire" />
+      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.5" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.4" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.4" level="project" />
+    <orderEntry type="library" name="Maven: log4j:log4j:1.2.16" level="project" />
+    <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.2.3" level="project" />
+    <orderEntry type="library" name="Maven: javax.xml.stream:stax-api:1.0-2" level="project" />
+    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-impl:2.1.7" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-xjc:2.2" level="project" />
+    <orderEntry type="library" name="Maven: javax.xml.ws:jaxws-api:2.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.ws:jaxws-tools:2.1.2" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.ws:jaxws-rt:2.1.3" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.messaging.saaj:saaj-impl:1.3" level="project" />
+    <orderEntry type="library" name="Maven: javax.xml.soap:saaj-api:1.3" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.stream.buffer:streambuffer:0.6" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.stream:sjsxp:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jvnet.staxex:stax-ex:1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.org.apache.xml.internal:resolver:20050927" level="project" />
+    <orderEntry type="library" name="Maven: javax.jws:jsr181-api:1.0-MR1" level="project" />
+    <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jclouds.api:openstack-nova-ec2:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.jclouds.api:openstack-nova:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.jclouds.api:openstack-keystone:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.jclouds:jclouds-core:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk16:1.46" level="project" />
+    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-core:1.12" level="project" />
+    <orderEntry type="library" name="Maven: com.google.inject.extensions:guice-assistedinject:3.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.inject:guice:3.0" level="project" />
+    <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" name="Maven: org.99soft.guice:rocoto:6.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:13.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jclouds:jclouds-compute:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.jclouds:jclouds-scriptbuilder:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.jclouds.api:ec2:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.jclouds.common:aws-common:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.jclouds.driver:jclouds-slf4j:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.4" level="project" />
+    <orderEntry type="library" name="Maven: org.fusesource:sigar:1.6.4" level="project" />
+    <orderEntry type="library" name="Maven: com.jcraft:jsch:0.1.49" level="project" />
+    <orderEntry type="library" name="Maven: org.jvnet:mimepull:1.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.xml:jaxrpc-api:1.1" level="project" />
+    <orderEntry type="library" name="Maven: MultiLevelElasticityControl:Model:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
+  </component>
+</module>
+

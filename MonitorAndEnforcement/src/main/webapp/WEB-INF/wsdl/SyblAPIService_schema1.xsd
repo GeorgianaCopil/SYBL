@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://runtimeAPI.monitorandenforcement.sybl.dsg.tuwien.ac.at/" xmlns:tns="http://runtimeAPI.monitorandenforcement.sybl.dsg.tuwien.ac.at/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="Test" type="tns:Test"/>
+
+  <xs:element name="TestResponse" type="tns:TestResponse"/>
+
+  <xs:element name="enforceAction" type="tns:enforceAction"/>
+
+  <xs:element name="enforceActionResponse" type="tns:enforceActionResponse"/>
+
+  <xs:element name="getControlledService" type="tns:getControlledService"/>
+
+  <xs:element name="getControlledServiceResponse" type="tns:getControlledServiceResponse"/>
+
+  <xs:element name="getCostPerHour" type="tns:getCostPerHour"/>
+
+  <xs:element name="getCostPerHourResponse" type="tns:getCostPerHourResponse"/>
+
+  <xs:element name="getCurrentCPUSize" type="tns:getCurrentCPUSize"/>
+
+  <xs:element name="getCurrentCPUSizeResponse" type="tns:getCurrentCPUSizeResponse"/>
+
+  <xs:element name="getCurrentCPUUsage" type="tns:getCurrentCPUUsage"/>
+
+  <xs:element name="getCurrentCPUUsageResponse" type="tns:getCurrentCPUUsageResponse"/>
+
+  <xs:element name="getCurrentHDDSize" type="tns:getCurrentHDDSize"/>
+
+  <xs:element name="getCurrentHDDSizeResponse" type="tns:getCurrentHDDSizeResponse"/>
+
+  <xs:element name="getCurrentHDDUsage" type="tns:getCurrentHDDUsage"/>
+
+  <xs:element name="getCurrentHDDUsageResponse" type="tns:getCurrentHDDUsageResponse"/>
+
+  <xs:element name="getCurrentLatency" type="tns:getCurrentLatency"/>
+
+  <xs:element name="getCurrentLatencyResponse" type="tns:getCurrentLatencyResponse"/>
+
+  <xs:element name="getCurrentMemUsage" type="tns:getCurrentMemUsage"/>
+
+  <xs:element name="getCurrentMemUsageResponse" type="tns:getCurrentMemUsageResponse"/>
+
+  <xs:element name="getCurrentOperationCount" type="tns:getCurrentOperationCount"/>
+
+  <xs:element name="getCurrentOperationCountResponse" type="tns:getCurrentOperationCountResponse"/>
+
+  <xs:element name="getCurrentRAMSize" type="tns:getCurrentRAMSize"/>
+
+  <xs:element name="getCurrentRAMSizeResponse" type="tns:getCurrentRAMSizeResponse"/>
+
+  <xs:element name="getCurrentReadCount" type="tns:getCurrentReadCount"/>
+
+  <xs:element name="getCurrentReadCountResponse" type="tns:getCurrentReadCountResponse"/>
+
+  <xs:element name="getCurrentReadLatency" type="tns:getCurrentReadLatency"/>
+
+  <xs:element name="getCurrentReadLatencyResponse" type="tns:getCurrentReadLatencyResponse"/>
+
+  <xs:element name="getCurrentWriteCount" type="tns:getCurrentWriteCount"/>
+
+  <xs:element name="getCurrentWriteCountResponse" type="tns:getCurrentWriteCountResponse"/>
+
+  <xs:element name="getCurrentWriteLatency" type="tns:getCurrentWriteLatency"/>
+
+  <xs:element name="getCurrentWriteLatencyResponse" type="tns:getCurrentWriteLatencyResponse"/>
+
+  <xs:element name="getLatestMonitoringData" type="tns:getLatestMonitoringData"/>
+
+  <xs:element name="getLatestMonitoringDataResponse" type="tns:getLatestMonitoringDataResponse"/>
+
+  <xs:element name="getMetricValue" type="tns:getMetricValue"/>
+
+  <xs:element name="getMetricValueResponse" type="tns:getMetricValueResponse"/>
+
+  <xs:element name="getTotalCostSoFar" type="tns:getTotalCostSoFar"/>
+
+  <xs:element name="getTotalCostSoFarResponse" type="tns:getTotalCostSoFarResponse"/>
+
+  <xs:element name="scalein" type="tns:scalein"/>
+
+  <xs:element name="scaleinResponse" type="tns:scaleinResponse"/>
+
+  <xs:element name="scaleout" type="tns:scaleout"/>
+
+  <xs:element name="scaleoutResponse" type="tns:scaleoutResponse"/>
+
+  <xs:element name="setControlledService" type="tns:setControlledService"/>
+
+  <xs:element name="setControlledServiceResponse" type="tns:setControlledServiceResponse"/>
+
+  <xs:element name="submitElasticityRequirements" type="tns:submitElasticityRequirements"/>
+
+  <xs:element name="submitElasticityRequirementsResponse" type="tns:submitElasticityRequirementsResponse"/>
+
+  <xs:complexType name="setControlledService">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="node">
+    <xs:sequence>
+      <xs:element name="elasticityCapabilities" type="tns:elasticityCapability" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="elasticityMetrics" type="tns:elasticityMetric" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="elasticityRequirements" type="tns:elasticityRequirement" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="nodeType" type="tns:nodeType" minOccurs="0"/>
+      <xs:element name="relatedNodes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="tns:node"/>
+                  <xs:element name="value" minOccurs="0" type="tns:relationship"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="staticInformation">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="elasticityCapability">
+    <xs:sequence>
+      <xs:element name="apiMethod" type="xs:string" minOccurs="0"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="parameter" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="elasticityMetric">
+    <xs:sequence>
+      <xs:element name="measurementUnit" type="xs:string" minOccurs="0"/>
+      <xs:element name="metricName" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="xs:anyType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="elasticityRequirement">
+    <xs:sequence>
+      <xs:element name="annotation" type="tns:syblAnnotation" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="syblAnnotation">
+    <xs:sequence>
+      <xs:element name="annotationType" type="tns:annotationType" minOccurs="0"/>
+      <xs:element name="constraints" type="xs:string" minOccurs="0"/>
+      <xs:element name="entityID" type="xs:string" minOccurs="0"/>
+      <xs:element name="monitoring" type="xs:string" minOccurs="0"/>
+      <xs:element name="priorities" type="xs:string" minOccurs="0"/>
+      <xs:element name="strategies" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="relationship">
+    <xs:sequence>
+      <xs:element name="elasticityRelationship" type="tns:elasticityInfoRelationship" minOccurs="0"/>
+      <xs:element name="sourceElement" type="xs:string" minOccurs="0"/>
+      <xs:element name="targetElement" type="xs:string" minOccurs="0"/>
+      <xs:element name="type" type="tns:relationshipType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="elasticityInfoRelationship">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="setControlledServiceResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getTotalCostSoFar">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getTotalCostSoFarResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentHDDSize">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentHDDSizeResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentCPUSize">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentCPUSizeResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="scalein">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="scaleinResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentCPUUsage">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentCPUUsageResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="scaleout">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="scaleoutResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getCostPerHour">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCostPerHourResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentReadCount">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentReadCountResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="enforceAction">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+      <xs:element name="arg1" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="enforceActionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentHDDUsage">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentHDDUsageResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentReadLatency">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentReadLatencyResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentOperationCount">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentOperationCountResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getControlledService">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getControlledServiceResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentRAMSize">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentRAMSizeResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Test">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="TestResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getLatestMonitoringData">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getLatestMonitoringDataResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentWriteCount">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentWriteCountResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentMemUsage">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentMemUsageResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="submitElasticityRequirements">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:elasticityRequirement" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="submitElasticityRequirementsResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentLatency">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentLatencyResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMetricValue">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+      <xs:element name="arg1" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getMetricValueResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentWriteLatency">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCurrentWriteLatencyResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:float" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="annotationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CLOUD_SERVICE"/>
+      <xs:enumeration value="SERVICE_UNIT"/>
+      <xs:enumeration value="SERVICE_TOPOLOGY"/>
+      <xs:enumeration value="CODE_REGION"/>
+      <xs:enumeration value="RELATIONSHIP"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="nodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CLOUD_SERVICE"/>
+      <xs:enumeration value="CODE_REGION"/>
+      <xs:enumeration value="SERVICE_TOPOLOGY"/>
+      <xs:enumeration value="SERVICE_UNIT"/>
+      <xs:enumeration value="OS_PROCESS"/>
+      <xs:enumeration value="VIRTUAL_MACHINE"/>
+      <xs:enumeration value="VIRTUAL_CLUSTER"/>
+      <xs:enumeration value="CLOUD_INFRASTRUCTURE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="relationshipType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="COMPOSITION_RELATIONSHIP"/>
+      <xs:enumeration value="HOSTED_ON_RELATIONSHIP"/>
+      <xs:enumeration value="ASSOCIATED_AT_RUNTIME_RELATIONSHIP"/>
+      <xs:enumeration value="RUNS_ON"/>
+      <xs:enumeration value="MASTER_OF"/>
+      <xs:enumeration value="PEER_OF"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+
